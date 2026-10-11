@@ -1,0 +1,12 @@
+.lake/
+__pycache__/
+*.olean
+*.ilean
+_out/
+
+# Local experiments are not submission sources.
+scratch_axioms_twin.lean
+
+# Deferred documentation work and local adversarial-audit experiments.
+/.blueprint-deferred/
+/audit_scratch/

@@ -1,0 +1,66 @@
+name: Lean and Comparator
+
+on:
+  push:
+    branches:
+      - 'palomar/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 360
+    env:
+      LEAN_NUM_THREADS: 2
+    steps:
+      - name: Check out the exact source snapshot
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Check submission structure
+        run: python3 scripts/check_submission.py --require-clean
+
+      - name: Install Lean and the pinned Mathlib cache
+        uses: leanprover/lean-action@f061402b660e0c34644504b324e830f2991d4865 # v1
+        with:
+          auto-config: "false"
+          build: "false"
+          test: "false"
+          lint: "false"
+          use-mathlib-cache: "true"
+          use-github-cache: "false"
+
+      - name: Install Palomar's pinned sandbox
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq meson ninja-build libcap-dev pkg-config
+          curl --fail --location --silent --show-error --proto '=https' --tlsv1.2 \
+            https://raw.githubusercontent.com/PalomarRegistry/PalomarSubmission/d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44/scripts/install_bwrap.sh \
+            --output "$RUNNER_TEMP/install_bwrap.sh"
+          sandbox_binary=$(bash "$RUNNER_TEMP/install_bwrap.sh" "$RUNNER_TEMP/bwrap-bin")
+          echo "COMPARATOR_BWRAP=$sandbox_binary" >> "$GITHUB_ENV"
+
+      # This works for a private repository. It checks the two statements and
+      # replays their proofs with Lean, NanoDa, and con-ron. The separate full
+      # Palomar workflow still requires a publicly fetchable commit and checks
+      # metadata, license recognition, and Challenge provenance as well.
+      - name: Build and verify the submitted theorems
+        run: |
+          set -o pipefail
+          bash scripts/verify_palomar.sh 2>&1 | tee "$RUNNER_TEMP/fnz-verification.log"
+          lake env lean ProofAudit.lean 2>&1 | tee -a "$RUNNER_TEMP/fnz-verification.log"
+          lake env lean FinalContractAudit.lean 2>&1 | tee -a "$RUNNER_TEMP/fnz-verification.log"
+          python3 verify_certificates.py --max-d 128 2>&1 | tee -a "$RUNNER_TEMP/fnz-verification.log"
+
+      - name: Preserve the verification log
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: verification-${{ github.sha }}
+          path: ${{ runner.temp }}/fnz-verification.log
+          if-no-files-found: ignore
+          retention-days: 30

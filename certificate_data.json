@@ -1,0 +1,172 @@
+{
+  "status": "finite_mathematical_data_not_Lean_proofs",
+  "word_convention": {
+    "evaluation": "left_to_right",
+    "negative_letter": "inverse",
+    "Gamma_alphabet": {
+      "1": "a",
+      "2": "b"
+    },
+    "D_free_alphabet": {
+      "1": "x",
+      "2": "y"
+    }
+  },
+  "Gamma_relator": [
+    2,
+    1,
+    1,
+    2,
+    -1
+  ],
+  "states": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "a_next_state": [
+    2,
+    3,
+    4,
+    5,
+    0,
+    1
+  ],
+  "b_next_state": [
+    5,
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "r_values": [
+    2,
+    3,
+    4,
+    5,
+    0,
+    1
+  ],
+  "alpha": [
+    {
+      "free_word": [
+        1
+      ],
+      "central_exponent": 0
+    },
+    {
+      "free_word": [
+        2,
+        1
+      ],
+      "central_exponent": -1
+    },
+    {
+      "free_word": [
+        -1,
+        2,
+        1
+      ],
+      "central_exponent": -1
+    },
+    {
+      "free_word": [
+        -1,
+        -2,
+        -1,
+        2,
+        1
+      ],
+      "central_exponent": 0
+    },
+    {
+      "free_word": [
+        -1,
+        -2
+      ],
+      "central_exponent": 2
+    },
+    {
+      "free_word": [
+        -1,
+        -2,
+        1
+      ],
+      "central_exponent": 2
+    }
+  ],
+  "beta": [
+    {
+      "free_word": [
+        -2,
+        -1,
+        2,
+        1
+      ],
+      "central_exponent": -1
+    },
+    {
+      "free_word": [],
+      "central_exponent": 0
+    },
+    {
+      "free_word": [],
+      "central_exponent": 0
+    },
+    {
+      "free_word": [],
+      "central_exponent": 0
+    },
+    {
+      "free_word": [],
+      "central_exponent": 0
+    },
+    {
+      "free_word": [],
+      "central_exponent": 0
+    }
+  ],
+  "c": {
+    "free_word": [
+      -2,
+      -1,
+      2,
+      1
+    ],
+    "central_exponent": -1
+  },
+  "marked_Gamma_words": {
+    "X": [
+      1,
+      2,
+      2
+    ],
+    "Y0": [
+      1,
+      1,
+      2,
+      2,
+      1,
+      1
+    ],
+    "Z": [
+      1,
+      1,
+      1
+    ],
+    "C": [
+      2,
+      2,
+      2,
+      2,
+      2,
+      2
+    ]
+  },
+  "six_relations": "alpha_s = beta_s * alpha_(s-1 mod 6) * alpha_(s+1 mod 6) * beta_(s+3 mod 6)",
+  "provenance": "Original finite weighted certificate derived in blueprint.md \u00a79; independently checked with verify_certificates.py."
+}

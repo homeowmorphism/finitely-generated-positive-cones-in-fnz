@@ -1,0 +1,35 @@
+name: Palomar preflight
+run-name: Palomar preflight · ${{ inputs.commit }}
+
+on:
+  workflow_dispatch:
+    inputs:
+      commit:
+        description: Full 40-character commit SHA to verify in this public repository
+        required: true
+        type: string
+      authorization_relationship:
+        description: Your relationship to the formalization
+        required: true
+        type: choice
+        options:
+          - I am a responsible author or maintainer
+          - I have approval from a responsible author or maintainer
+
+permissions:
+  contents: read
+
+jobs:
+  # The source commit must be publicly fetchable. This creates a mechanical
+  # report only; it does not submit to Palomar or register a result.
+  verify:
+    uses: PalomarRegistry/PalomarSubmission/.github/workflows/submission.yml@d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44
+    with:
+      repository: ${{ github.repository }}
+      commit: ${{ inputs.commit }}
+      pipeline_commit: d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44
+      request_id: fnzpreflight
+      mode: full
+      execution_profile: palomar-standard-v1
+      options: >-
+        {"comparator_config_path":"comparator.json","authorization_relationship":${{ toJSON(inputs.authorization_relationship) }}}
