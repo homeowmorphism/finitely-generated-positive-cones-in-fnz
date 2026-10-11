@@ -20,8 +20,8 @@ project:
   license: Apache-2.0
 
 classification:
-  arxiv: [math.GR]
-  msc2020: [20F60, 06F15, 20E05]
+  arxiv: ["math.GR"]
+  msc2020: ["20F60", "06F15", "20E05"]
 
 sources:
   - title: Finitely generated positive cones in F_n × Z
