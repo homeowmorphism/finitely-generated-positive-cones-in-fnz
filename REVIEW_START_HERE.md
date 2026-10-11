@@ -71,7 +71,9 @@ rank-two existence, rank-three nonexistence, and axiom dependencies.
 contracts and traverses the stronger non-isolation theorem's dependencies.
 The Python certificate checker is supplementary evidence.
 
-The retained review reports were written by AI agents. Their use of
+The retained review reports were written by AI agents: Codex (gpt-6-astra)
+wrote all of them except AUDIT_REPORT.md, which Claude Code (Claude Opus 5)
+wrote. Their use of
 "independent" refers to separate agent reviews, not human peer review.
 [FINAL_CONTRACT_REVIEW.md](FINAL_CONTRACT_REVIEW.md) discloses overlap between
 review and implementation work. [AUDIT_REPORT.md](AUDIT_REPORT.md) records an

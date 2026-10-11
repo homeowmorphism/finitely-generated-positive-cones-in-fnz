@@ -77,8 +77,13 @@ required results for every degree are proved in Lean.
 [REVIEW_START_HERE.md](REVIEW_START_HERE.md) gives a focused review path.
 [formalization.yaml](formalization.yaml) records sources, scope, proof changes,
 authorship, and AI involvement. AI agents substantially developed both the
-formal proofs and the review reports. No completed independent human mathematical
-review is documented.
+formal proofs and the review reports. Claude Code (Claude Fable 5.1) drafted
+the blueprint and audited it against the paper. Codex (gpt-6-astra) developed
+the Lean library, wrote every review report except
+[AUDIT_REPORT.md](AUDIT_REPORT.md), and prepared the submission.
+Claude Code (Claude Opus 5) wrote AUDIT_REPORT.md, and
+Claude Code (Claude Opus 5.5) made the final submission edits. No completed
+independent human mathematical review is documented.
 
 The construction follows the paper's subgroup tower, with weighted-action
 proofs of the marked isomorphism and free basis. The classification uses a

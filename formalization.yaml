@@ -150,36 +150,65 @@ status:
 automation:
   methods:
     - method: agent
+      models: [claude-fable-5-1]
+      framework: Claude Code
       tool_setup: >-
-        AI agents developed and revised Lean definitions, proof scripts,
-        mathematical proof plans, supporting Python checks, documentation,
-        and review reports. They used local Lean/Lake builds, Mathlib source
-        inspection, shell tools, and parallel implementation and review tasks.
-        Exact model identifiers for the earlier development and review runs
-        are not recorded in this repository.
+        Drafted the initial blueprint package from the source paper, committed
+        on 2026-09-20: blueprint.md, the first version of Interfaces.lean,
+        certificate_data.json, and verify_certificates.py. It then ran a
+        multi-agent audit of that package against the paper (2026-09-19 to
+        2026-09-21), with local Lean elaboration checks.
       prompting_notes: >-
-        blueprint.md records the mathematical specifications and proof plans.
+        blueprint.md records the mathematical specifications and proof plans
+        given to the development agents, including the replacement arguments
+        for the marked isomorphism and the explicit free basis.
+    - method: agent
+      models: [gpt-6-astra]
+      framework: Codex
+      tool_setup: >-
+        Developed the Lean library from the blueprint (2026-09-20 to
+        2026-10-07): definitions, proof scripts, replacement proof arguments,
+        the Lean audit files, documentation, and every review report except
+        AUDIT_REPORT.md. It used local Lean/Lake builds, Mathlib source
+        inspection, shell tools, and parallel implementation and review
+        tasks. It also prepared the Palomar submission: the independent
+        Challenge statements, proof adapters, metadata, module packaging,
+        repository cleanup, and verification commands. Codex's built-in
+        action-approval reviewer (codex-auto-review) approved tool calls but
+        contributed no content.
+      prompting_notes: >-
         The retained review reports describe statement, source, and dependency
         checks at earlier snapshots. Commit hashes in those reports, and
         development records removed during submission cleanup, refer to the
         private development repository, which is not part of this public
         snapshot.
     - method: agent
-      models: [GPT-6]
-      framework: Codex
+      models: [claude-opus-5]
+      framework: Claude Code
       tool_setup: >-
-        Palomar submission preparation, including the independent statement
-        interface, proof adapters, metadata, module packaging, repository
-        cleanup, and verification commands.
+        Ran the adversarial audit recorded in AUDIT_REPORT.md at commit
+        6881f5d of the private development repository (2026-09-22). Its Lean
+        probe files are not part of this snapshot.
+    - method: agent
+      models: [claude-opus-5-5]
+      framework: Claude Code
+      tool_setup: >-
+        Made the final submission edits on 2026-10-11: docstrings in
+        Interfaces.lean, the restored module header in Main.lean, the
+        provenance notes in the review reports and in this file, and this
+        one-commit public snapshot of the private development repository.
   notes: >-
-    Hang Lu Su is the human author and responsible maintainer. AI involvement
-    was substantial and included proof construction and proposed replacement
-    arguments. Review agents also inspected types, definitions, dependencies,
-    and proof architecture. Lean kernel checking supplies the formal proof
-    check. The Python certificate checker is supplementary development
-    evidence. Costs and cumulative effort are not recorded here. No
-    novelty claim is made for the replacement arguments, and no earlier
-    formalization of these endpoints is identified in the project records.
+    Hang Lu Su is the human author and responsible maintainer, wrote the
+    source paper, and directed the agents. AI involvement was substantial and
+    included proof construction and proposed replacement arguments. Review
+    agents also inspected types, definitions, dependencies, and proof
+    architecture. Lean kernel checking supplies the formal proof check. The
+    Python certificate checker is supplementary development evidence. Model
+    identifiers come from the local Claude Code and Codex session logs and
+    from commit trailers in the private development repository. Costs and
+    cumulative effort are not recorded here. No novelty claim is made for
+    the replacement arguments, and no earlier formalization of these
+    endpoints is identified in the project records.
 
 fidelity:
   divergences: >-
@@ -198,9 +227,13 @@ fidelity:
 review:
   status: agent-reviewed
   reviewers:
-    - AI implementation and review agents identified in the repository review reports
+    - Codex review agents (gpt-6-astra); every review report except AUDIT_REPORT.md
+    - Claude Code (claude-opus-5); AUDIT_REPORT.md
+    - Claude Code multi-agent blueprint audit (claude-fable-5-1); no report file in this snapshot
   notes: >-
-    CLASSIFICATION_REVIEW.md records a distinct agent review of the direct
+    The Claude Code audit of the blueprint package (2026-09-19 to 2026-09-21)
+    found no mathematical error and proposed corrections before the Lean
+    development began. CLASSIFICATION_REVIEW.md records a distinct agent review of the direct
     classification proof. FINAL_ENDPOINT_REVIEW.md and
     FINAL_CONTRACT_REVIEW.md record statement and dependency checks;
     FINAL_CONTRACT_REVIEW.md explicitly discloses overlap between its
